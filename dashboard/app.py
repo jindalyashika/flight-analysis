@@ -235,9 +235,13 @@ LAV_COLORS = ["#7c3aed", "#6366f1", "#0ea5e9", "#8b5cf6", "#06b6d4", "#a78bfa", 
 
 @st.cache_data
 def get_data(query):
+    creds = st.secrets["postgres"]
     conn = psycopg2.connect(
-        host="localhost", database="flight_analysis",
-        user="postgres", password="postgres"
+        host=creds["host"],
+        database=creds["database"],
+        user=creds["user"],
+        password=creds["password"],
+        port=creds["port"]
     )
     df = pd.read_sql(query, conn)
     conn.close()
